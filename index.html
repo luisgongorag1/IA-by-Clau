@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA by Clau - Inteligencia Artificial aplicada al marketing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Agregar SDK de EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0A74DA;
+            --secondary-color: #0D6EFD;
+            --accent-color: #4A90E2;
+            --dark-color: #1E3A5F;
+            --hero-bg: #0A2463;
+            --light-bg: #F8F9FA;
+            --text-dark: #333333;
+            --text-light: #6C757D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles - Versión desktop */
+        header {
+            background-image: url('fondo1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 36, 99, 0.85);
+            z-index: 1;
+        }
+        
+        .navbar {
+            padding: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 65px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* Hero Section - Versión desktop */
+        .hero {
+            background-image: url('fondo1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 150px 0 100px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-top: 76px;
+        }
+        
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 36, 99, 0.7);
+            z-index: 0;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                             radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                             radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 100px 100px, 150px 150px, 200px 200px;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary-custom {
+            background-color: #0D6EFD;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #0A74DA;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.4);
+            color: white;
+        }
+        
+        /* Services Section - Versión desktop */
+        .services {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .service-card:hover .service-title {
+            color: var(--primary-color);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+        
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .service-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            color: var(--primary-color);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* AI Agents Section - Versión desktop */
+        .ai-agents {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .agent-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .agent-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-right: 20px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .agent-content h4 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        
+        .agent-content p {
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        /* Automation Systems Section - Versión desktop */
+        .automation-systems {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .automation-systems h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center; /* Título centrado */
+        }
+        
+        .automation-systems p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            text-align: justify; /* Párrafo justificado */
+        }
+        
+        /* Subtítulo específico para la sección de automatización */
+        .automation-systems .section-subtitle {
+            text-align: center !important; /* Asegurar que esté centrado */
+            margin-bottom: 40px; /* Reducir margen inferior */
+        }
+        
+        .img-container {
+            position: relative;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .img-fallback {
+            padding: 40px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .img-fallback i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        /* CRM Section - Versión desktop */
+        .crm-section {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .crm-feature {
+            margin-bottom: 30px;
+        }
+        
+        .crm-feature h4 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .crm-feature p {
+            color: var(--text-light);
+        }
+        
+        /* Process Section - Versión desktop */
+        .process-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .process-step {
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            color: var(--text-light);
+        }
+        
+        /* Problems Section - Versión desktop */
+        .problems-section {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .problem-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .problem-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+        
+        .problem-description {
+            color: var(--text-light);
+        }
+        
+        /* Contact Section - Versión desktop */
+        #contact {
+            padding: 80px 0;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-label .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+        
+        .form-control, .form-select {
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(10, 116, 218, 0.25);
+        }
+        
+        .form-control.is-invalid, .form-select.is-invalid {
+            border-color: #dc3545;
+        }
+        
+        .invalid-feedback {
+            display: none;
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .form-control.is-invalid ~ .invalid-feedback,
+        .form-select.is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        /* Footer - Versión desktop */
+        footer {
+            background-image: url('image2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 50px 0 30px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 36, 99, 0.85);
+            z-index: 1;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding-right: 20px;
+        }
+        
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo-img {
+            height: 45px;
+            margin-right: 15px;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .footer-section p {
+            margin-bottom: 15px;
+        }
+
+        /* ESTILO AÑADIDO PARA JUSTIFICAR EL PÁRRAFO */
+        .footer-description {
+            text-align: justify;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animaciones y transiciones */
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .img-container {
+                margin: 30px 0;
+            }
+            
+            .automation-systems h3 {
+                text-align: center; /* Mantener centrado en móvil */
+            }
+            
+            .automation-systems p {
+                text-align: left; /* Cambiar a izquierda en móvil para mejor legibilidad */
+            }
+            
+            .automation-systems .section-subtitle {
+                text-align: center !important; /* Mantener centrado en móvil */
+            }
+        }
+        
+        /* Estilos para notificaciones */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: #28a745;
+        }
+        
+        .notification.error {
+            background-color: #dc3545;
+        }
+        
+        .notification.info {
+            background-color: #17a2b8;
+        }
+        
+        /* Botón de carga */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.8s linear infinite;
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand logo-with-image" href="#">
+                    <img src="logo1.png" alt="IA by Clau Logo" class="logo-img">
+                    <span class="logo-text">IA by Clau</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#services">Servicios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Impulsamos negocios con Inteligencia Artificial aplicada al marketing</h1>
+            <p>Lleva tu negocio al siguiente nivel con soluciones inteligentes</p>
+            <a href="#contact" class="btn-primary-custom">Agenda tu consultoría gratuita</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Haz que la IA y la automatización trabajen por tu negocio</h2>
+            <p class="section-subtitle">Descubre cómo nuestras soluciones de inteligencia artificial pueden transformar tu empresa</p>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <a href="#ai-agents" class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="service-title">Agentes de IA</h3>
+                        <p class="service-description">Asistentes inteligentes que trabajan 24/7 para optimizar tus operaciones</p>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>WhatsApp 24/7</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Reconocimiento de voz</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Gestión de redes sociales</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Email instantáneo</span>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <a href="#automation-systems" class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="service-title">Sistemas de automatización</h3>
+                        <p class="service-description">Optimiza tus flujos de trabajo desde la captación de clientes hasta el cierre de ventas</p>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Automatización de tareas repetitivas</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Gestión de redes sociales</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Organización de correos</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Procesos de captación de clientes</span>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <a href="#crm-section" class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="service-title">CRM Inteligente</h3>
+                        <p class="service-description">Gestión centralizada de clientes con análisis predictivo y automatización</p>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Automatización de reuniones</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Registro y seguimiento</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Integración de sistemas</span>
+                            </li>
+                            <li class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <span>Gestión completa del ciclo de vida del cliente</span>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agents Section -->
+    <section id="ai-agents" class="ai-agents">
+        <div class="container">
+            <h2 class="section-title">Agentes de IA para tu negocio</h2>
+            <p class="section-subtitle">Nuestros asistentes virtuales están diseñados para optimizar tus operaciones</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="agent-card">
+                        <div class="agent-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="agent-content">
+                            <h4>WhatsApp 24/7</h4>
+                            <p>Atención automática e instantánea a tus clientes en cualquier momento del día</p>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="agent-content">
+                            <h4>Asistente de voz</h4>
+                            <p>Reconocimiento de voz avanzado para gestionar llamadas y consultas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="agent-card">
+                        <div class="agent-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="agent-content">
+                            <h4>Gestión de redes sociales</h4>
+                            <p>Publicación automática y respuesta a comentarios en tus plataformas sociales</p>
+                        </div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="agent-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="agent-content">
+                            <h4>Email instantáneo</h4>
+                            <p>Respuesta automática y clasificación de correos para optimizar tu bandeja de entrada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automation Systems Section - Imagen a la derecha en desktop -->
+    <section id="automation-systems" class="automation-systems">
+        <div class="container">
+            <h2 class="section-title">Sistemas de automatización</h2>
+            <p class="section-subtitle">Optimiza tus flujos de trabajo para maximizar la eficiencia</p>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h3>Automatiza desde la captación hasta el cierre de ventas</h3>
+                    <p class="mt-3 mb-4">Nuestros sistemas de automatización están diseñados para optimizar cada etapa del proceso de ventas, permitiéndote centrarte en lo que realmente importa: hacer crecer tu negocio.</p>
+                    
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Seguimiento rápido y preciso de clientes potenciales</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Tareas automáticas programadas según tus necesidades</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Procesos de confirmación de llamadas automatizados</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Integración con múltiples plataformas y herramientas</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="btn-primary-custom mt-4">Agenda tu consultoría gratuita</a>
+                </div>
+                <div class="col-md-6">
+                    <div class="img-container">
+                        <img src="n8n.png" alt="Sistemas de automatización" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-fallback" style="display: none;">
+                            <i class="fas fa-cogs"></i>
+                            <h4>Sistemas de Automatización</h4>
+                            <p>Imagen no disponible</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CRM Section -->
+    <section id="crm-section" class="crm-section">
+        <div class="container">
+            <h2 class="section-title">CRM Inteligente</h2>
+            <p class="section-subtitle">Gestión centralizada de clientes con análisis predictivo</p>
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 crm-image">
+                    <div class="img-container">
+                        <img src="image3.png" alt="CRM Inteligente" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="img-fallback" style="display: none;">
+                            <i class="fas fa-users"></i>
+                            <h4>CRM Inteligente</h4>
+                            <p>Imagen no disponible</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="crm-features">
+                        <div class="crm-feature">
+                            <h4>Reuniones</h4>
+                            <p>Automatización de programación, registro de interacciones y seguimiento post-reunión</p>
+                        </div>
+                        <div class="crm-feature">
+                            <h4>Integración</h4>
+                            <p>Conexión fluida entre sistemas para garantizar operaciones eficientes sin interrupciones</p>
+                        </div>
+                        <div class="crm-feature">
+                            <h4>Análisis predictivo</h4>
+                            <p>Identificación de oportunidades de venta cruzada y aumento de valor del cliente</p>
+                        </div>
+                        <div class="crm-feature">
+                            <h4>Gestión completa</h4>
+                            <p>Control centralizado de todo el ciclo de vida del cliente, desde el primer contacto hasta la fidelización</p>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn-primary-custom mt-4">Agenda tu consultoría gratuita</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title">¿Cómo transformamos tu negocio con IA?</h2>
+            <p class="section-subtitle">Nuestro proceso de 4 pasos para integrar inteligencia artificial en tu empresa</p>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">Diagnóstico y análisis</h3>
+                            <p class="step-description">Evaluamos tus procesos actuales para identificar oportunidades de optimización con IA</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">Estrategia personalizada</h3>
+                            <p class="step-description">Diseñamos un plan a medida que se alinea con tus objetivos comerciales específicos</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">Implementación y optimización</h3>
+                            <p class="step-description">Integramos las soluciones de IA y ajustamos los parámetros para maximizar resultados</p>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <h3 class="step-title">Capacitación y acompañamiento</h3>
+                            <p class="step-description">Formamos a tu equipo y proporcionamos soporte continuo para garantizar el éxito</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems-section">
+        <div class="container">
+            <h2 class="section-title">Problemas a resolver con la Inteligencia Artificial</h2>
+            <p class="section-subtitle">Nuestras soluciones abordan los desafíos más comunes del negocio moderno</p>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="problem-card">
+                        <div class="problem-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="problem-title">Automatización de tareas repetitivas</h3>
+                        <p class="problem-description">Elimina procesos manuales, ahorra tiempo y reduce errores humanos</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="problem-card">
+                        <div class="problem-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3 class="problem-title">Captación y conversión de clientes</h3>
+                        <p class="problem-description">Agentes de IA que identifican automáticamente clientes potenciales y oportunidades de venta</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="problem-card">
+                        <div class="problem-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="problem-title">Consultoría de IA</h3>
+                        <p class="problem-description">Análisis de datos para proporcionar estrategias personalizadas basadas en inteligencia artificial</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="problem-card">
+                        <div class="problem-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="problem-title">CRM inteligente</h3>
+                        <p class="problem-description">Almacenamiento centralizado de datos de clientes con análisis predictivo y automatización</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="services">
+        <div class="container">
+            <h2 class="section-title">Agenda tu consultoría gratuita</h2>
+            <p class="section-subtitle">Descubre cómo la inteligencia artificial puede transformar tu negocio</p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="service-card">
+                        <form id="contactForm" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Nombre completo<span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <div class="invalid-feedback">Por favor, ingresa tu nombre completo</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Correo electrónico<span class="required">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Teléfono<span class="required">*</span></label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <div class="invalid-feedback">Por favor, ingresa tu número de teléfono</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="company" class="form-label">Empresa</label>
+                                    <input type="text" class="form-control" id="company" name="company">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="service" class="form-label">Servicio de interés<span class="required">*</span></label>
+                                <select class="form-select" id="service" name="service" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="agents">Agentes de IA</option>
+                                    <option value="automation">Sistemas de automatización</option>
+                                    <option value="crm">CRM Inteligente</option>
+                                    <option value="consulting">Consultoría empresarial</option>
+                                    <option value="all">Todos los servicios</option>
+                                </select>
+                                <div class="invalid-feedback">Por favor, selecciona un servicio de interés</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Mensaje (opcional)</label>
+                                <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn-primary-custom" id="submitBtn">Agendar consultoría gratuita</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="logo1.png" alt="IA by Clau Logo" class="footer-logo-img">
+                        <span class="footer-logo-text">IA by Clau</span>
+                    </div>
+                    <p class="footer-description">Transformando negocios con inteligencia artificial aplicada al marketing y automatización de procesos.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" target="_blank"><i class="fab fa-facebook-f"></i></a> <!-- Pega "#" tu URL de facebook --> 
+                        <a href="#" class="social-icon" target="_blank"><i class="fab fa-twitter"></i></a> <!-- Pega "#" tu URL de twitter --> 
+                        <a href="#" class="social-icon" target="_blank"><i class="fab fa-linkedin-in"></i></a> <!--  Pega "#" tu URL de linkedin -->                    
+                        <a href="https://www.instagram.com/iabyclau/" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Enlaces rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services">Servicios</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Servicios</h3>
+                    <ul class="footer-links">
+                        <li><a href="#ai-agents">Agentes de IA</a></li>
+                        <li><a href="#automation-systems">Sistemas de automatización</a></li>
+                        <li><a href="#crm-section">CRM Inteligente</a></li>
+                        <li><a href="#">Consultoría empresarial</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope me-2"></i> info@iabyclau.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +34 628 34 66 59</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Ciudad, País</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 IA by Clau. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar EmailJS - REEMPLAZA CON TUS PROPIAS CREDENCIALES
+            (function() {
+                emailjs.init("X3Fqey-mhtByC4kHZ"); // Reemplaza con tu Public Key de EmailJS
+            })();
+            
+            // Función para mostrar notificaciones
+            function showNotification(message, type) {
+                // Crear elemento de notificación
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                // Agregar al DOM
+                document.body.appendChild(notification);
+                
+                // Mostrar notificación
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+                
+                // Ocultar después de 5 segundos
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 5000);
+            }
+            
+            // Smooth scrolling para enlaces de navegación
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // Cerrar menú móvil si está abierto
+                        const navbarCollapse = document.querySelector('.navbar-collapse');
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarCollapse.classList.remove('show');
+                        }
+                        
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Validación personalizada del formulario
+            function validateForm() {
+                let isValid = true;
+                const form = document.getElementById('contactForm');
+                
+                // Validar nombre
+                const nameInput = document.getElementById('name');
+                if (!nameInput.value.trim()) {
+                    nameInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    nameInput.classList.remove('is-invalid');
+                }
+                
+                // Validar email
+                const emailInput = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailInput.value.trim() || !emailRegex.test(emailInput.value)) {
+                    emailInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    emailInput.classList.remove('is-invalid');
+                }
+                
+                // Validar teléfono
+                const phoneInput = document.getElementById('phone');
+                const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+                if (!phoneInput.value.trim() || !phoneRegex.test(phoneInput.value)) {
+                    phoneInput.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    phoneInput.classList.remove('is-invalid');
+                }
+                
+                // Validar servicio
+                const serviceSelect = document.getElementById('service');
+                if (!serviceSelect.value) {
+                    serviceSelect.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    serviceSelect.classList.remove('is-invalid');
+                }
+                
+                return isValid;
+            }
+            
+            // Limpiar validación al escribir
+            document.getElementById('name').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            document.getElementById('email').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            document.getElementById('phone').addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            document.getElementById('service').addEventListener('change', function() {
+                this.classList.remove('is-invalid');
+            });
+            
+            // Envío del formulario con EmailJS
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar formulario
+                if (!validateForm()) {
+                    showNotification('Por favor, completa todos los campos obligatorios correctamente', 'error');
+                    return;
+                }
+                
+                // Obtener botón de envío
+                const submitBtn = document.getElementById('submitBtn');
+                
+                // Agregar estado de carga
+                submitBtn.classList.add('btn-loading');
+                submitBtn.disabled = true;
+                
+                // Obtener valores del formulario
+                const serviceSelect = document.getElementById('service');
+                const serviceText = serviceSelect.options[serviceSelect.selectedIndex].text;
+                
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    company: document.getElementById('company').value,
+                    service: serviceText,
+                    message: document.getElementById('message').value
+                };
+                
+                // Enviar correo con EmailJS
+                emailjs.send('service_6e3zdt5', 'template_yqj62pp', formData) <!-- Agrega tus credenciales de service y template ID -->
+                    .then(function(response) {
+                        // Éxito
+                        showNotification('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.', 'success');
+                        document.getElementById('contactForm').reset();
+                    }, function(error) {
+                        // Error
+                        showNotification('Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.', 'error');
+                        console.error('EmailJS error:', error);
+                    })
+                    .finally(function() {
+                        // Quitar estado de carga
+                        submitBtn.classList.remove('btn-loading');
+                        submitBtn.disabled = false;
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
