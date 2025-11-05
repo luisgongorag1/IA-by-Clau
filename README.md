@@ -6,8 +6,8 @@ Fue creada para inspirar confianza, destacar servicios de IA y facilitar el cont
 ---
 
 ## 🌍 Demo en vivo
-👉 [https://tuusuario.github.io/IA-by-Clau](https://tuusuario.github.io/IA-by-Clau)  
-*(Actualiza este enlace cuando publiques tu sitio con GitHub Pages o Netlify)*
+👉 [[https://tuusuario.github.io/IA-by-Clau](https://tuusuario.github.io/IA-by-Clau)  ](https://luisgongorag1.github.io/IA-by-Clau/)
+
 
 ---
 
